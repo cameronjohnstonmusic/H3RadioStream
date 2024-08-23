@@ -1,0 +1,158 @@
+<jittershader name="fill-flat-triangles">
+	<description>
+		An auto-generated shader for simulating deprecated OpenGL features in OpenGL 3.2+
+	</description>
+	<param name="position" type="vec3" state="POSITION" />
+	<param name="modelViewProjectionMatrix" type="mat4" state="MODELVIEW_PROJECTION_MATRIX" />
+	<param name="color" type="vec4" state="COLOR0" />
+    	<param name="bLow" type="float" default="0.1"/>
+        <param name="bHigh" type="float" default="0.1"/>
+        <param name="slopeLow" type="float" default="0."/>
+         <param name="slopeHigh" type="float" default="0."/>
+         <param name="fade" type="float" default="1."/>
+	<language name="glsl" version="1.5">
+		<bind param="position" program="vp" />
+		<bind param="modelViewProjectionMatrix" program="vp" />
+		<bind param="color" program="vp" />
+        <bind param="slopeHigh" program="fp" />
+        <bind param="bHigh" program="fp" />
+        <bind param="slopeLow" program="fp" />
+        <bind param="bLow" program="fp" />
+        <bind param="fade" program="fp" />
+		<program name="vp" type="vertex">
+			<![CDATA[
+			// Preprocessor
+			#version 330 core
+			
+			// Definitions
+			
+			
+			// Uniforms
+			
+			
+			
+			uniform mat4 modelViewProjectionMatrix;
+			
+			out float posX;
+			
+			
+			out float posY;
+			
+			
+			
+			
+			// Attributes
+			in vec3 position;
+			uniform vec4 color;
+           
+			
+			
+			
+			
+			// Output
+			out jit_PerVertex {
+				flat vec4 color;
+				
+				
+			} jit_out;
+			
+			
+			// Library functions
+			
+			
+			
+				
+			void main() {
+				
+				gl_Position = modelViewProjectionMatrix * vec4(position, 1.);	
+				
+				posY = position.y;
+				
+				posX = position.x;
+				
+				
+				jit_out.color = color;
+				
+				
+				
+				
+				
+			}
+			
+			
+			
+		]]>
+		</program>
+		<program name="fp" type="fragment">
+			<![CDATA[
+			#version 330 core
+			
+			in float posY;
+			
+			in float posX;
+
+           uniform float bLow;
+        uniform float slopeLow;
+        uniform float bHigh;
+        uniform float slopeHigh;
+        uniform float fade;
+
+        uniform vec4 colorStart;
+        uniform vec4 colorEnd;
+        uniform vec4 finalColor;
+    
+           //float lineLow = (posY - b)/slope;
+			
+			//uniform r;
+			
+			in jit_PerVertex {
+				flat vec4 color;
+				
+				
+				
+				
+			} jit_in;
+			out vec4 color;
+			
+	
+
+			void main() {
+                vec4 colorStart = vec4(0.804275, 0.411221, 0.531269, fade);
+                vec4 colorEnd = vec4(0.643772, 0.317522, 0.881006, fade);
+                vec4 finalColor = mix(colorStart, colorEnd, posX);
+
+
+
+				float lineLow = (posY - bLow)/slopeLow;
+                float lineHigh = (posY - (bHigh)/slopeHigh);
+
+		
+              
+                
+				
+				if (posX > lineLow) {
+			
+				color = finalColor;
+			
+				}
+			
+				
+			
+				if (posX < lineLow) {
+					
+					color = vec4(0, 0, 0, 0);
+
+                  
+				} 
+
+               
+			
+			
+			
+			}	
+			
+			
+		]]>
+		</program>
+	</language>
+</jittershader>

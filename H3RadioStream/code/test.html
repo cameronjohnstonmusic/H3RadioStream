@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full-Screen YouTube Video</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            height: 100%;
+            background-color: black;
+        }
+
+        .video-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/OFCvXXMxDGg?autoplay=1&mute=0&controls=1" frameborder="0"
+            allow="autoplay; fullscreen">
+        </iframe>
+    </div>
+</body>
+
+</html>
